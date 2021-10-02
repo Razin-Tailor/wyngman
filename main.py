@@ -4,7 +4,7 @@ import boto3
 import pandas as pd
 import pytz
 
-import parser
+from parser import Parser
 
 # Amazon Cognito User Pool Configs
 LIMIT = 60
@@ -75,15 +75,19 @@ def get_email(row):
 
 
 def main() -> int:
+    print(sys.argv)
+    parser = Parser()
     arg_parser = parser.get_parser() 
-    opt = arg_parser.parse_args()
     if len(sys.argv) < 2:
-        parser.print_help()
+        arg_parser.print_help()
         return 1
     else:
-        pass
+        print("in else")
+        opt = arg_parser.parse_args()
+        if sys.argv[1] == 'cognito':
+            print("List Users", opt.list_users)
     return 0
 
 
 if __name__ == "__main__":
-    exit(main())
+    raise SystemExit(main())
