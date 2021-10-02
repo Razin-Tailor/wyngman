@@ -29,8 +29,7 @@ class Parser:
         subparsers = parser.add_subparsers()
         # parser.add_argument(
         #     "service",
-        #     metavar="service",
-        #     type=str,
+        #     metavar="service",        #     type=str,
         #     help="AWS Service [currently only supporting Cognito]",
         # )
 
@@ -38,7 +37,7 @@ class Parser:
             formatter_class=argparse.RawTextHelpFormatter,
          )
         cognito_parser.add_argument(
-            "--list-users", "-l", type=bool, default=False, help="List Users Flag"
+            "--list-users", "-l", dest="list_users", action="store_true", 
         )
         cognito_parser.add_argument(
             "--before",
@@ -55,7 +54,7 @@ class Parser:
             help="All users after date Date in format yyyy-mm-dd",
         )
         cognito_parser.add_argument(
-            "--all", "-A", type=bool, default=False, help="Fetch All Users Flag"
+            "--all", "-A", dest="all_users", action="store_true"
         )
         cognito_parser.add_argument(
             "--save", "-s", type=str, default=None, help="Save as a CSV file"
