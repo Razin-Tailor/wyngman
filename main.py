@@ -90,7 +90,9 @@ def main() -> int:
             after = opt.after
             save = opt.save
 
-            cognito = Cognito(before=before, after=after, save=save)
+            cognito = Cognito(
+                list_users=list_users, before=before, after=after, save=save
+            )
             cognito.handle_cognito()
     return 0
 
