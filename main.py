@@ -6,6 +6,8 @@ import pytz
 
 from parser import Parser
 
+from cognito import Cognito
+
 # Amazon Cognito User Pool Configs
 LIMIT = 60
 REGION = "ap-south-1"
@@ -75,17 +77,21 @@ def get_email(row):
 
 
 def main() -> int:
-    print(sys.argv)
     parser = Parser()
-    arg_parser = parser.get_parser() 
+    arg_parser = parser.get_parser()
     if len(sys.argv) < 2:
         arg_parser.print_help()
         return 1
     else:
-        print("in else")
         opt = arg_parser.parse_args()
-        if sys.argv[1] == 'cognito':
-            print("List Users", opt.list_users)
+        if sys.argv[1] == "cognito":
+            list_users = opt.list_users
+            before = opt.before
+            after = opt.after
+            save = opt.save
+
+            cognito = Cognito(before=before, after=after, save=save)
+            cognito.handle_cognito()
     return 0
 
 

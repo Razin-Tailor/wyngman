@@ -64,6 +64,10 @@ class Parser:
         )
 
         cognito_parser.add_argument(
-            "--save", "-s", type=str, default=None, help="Save as a CSV file"
+            "--save",
+            "-s",
+            dest="save",
+            action="store_true",
+            help="Save as a CSV file",
         )
         return parser
