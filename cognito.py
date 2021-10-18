@@ -59,13 +59,13 @@ class Cognito:
 
         if self.before is not None and self.after is not None:
             self.df = df[
-                (df.UserCreateDate <= self.before)
-                & (df.UserCreateDate >= self.after)
+                (df.UserCreateDate < self.before)
+                & (df.UserCreateDate > self.after)
             ]
         elif self.after is not None:
-            self.df = df[(df.UserCreateDate >= self.after)]
+            self.df = df[(df.UserCreateDate > self.after)]
         elif self.before is not None:
-            self.df = df[(df.UserCreateDate <= self.before)]
+            self.df = df[(df.UserCreateDate < self.before)]
         else:
             self.df = df
 

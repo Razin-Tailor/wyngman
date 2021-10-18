@@ -2,11 +2,14 @@ import datetime
 import sys
 import boto3
 import pandas as pd
-import pytz
 
 from parser import Parser
 
 from cognito import Cognito
+
+from pyfiglet import Figlet
+
+F = Figlet(font="slant")
 
 # Amazon Cognito User Pool Configs
 LIMIT = 60
@@ -79,6 +82,7 @@ def get_email(row):
 def main() -> int:
     parser = Parser()
     arg_parser = parser.get_parser()
+    print(F.renderText("AWS HELPER"))
     if len(sys.argv) < 2:
         arg_parser.print_help()
         return 1
