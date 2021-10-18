@@ -23,6 +23,13 @@ A Querying support for AWS Cognito
 
 ```console
 foo@bar:~$ aws-helper cognito --help
+    ___ _       _______    __  __________    ____  __________
+   /   | |     / / ___/   / / / / ____/ /   / __ \/ ____/ __ \
+  / /| | | /| / /\__ \   / /_/ / __/ / /   / /_/ / __/ / /_/ /
+ / ___ | |/ |/ /___/ /  / __  / /___/ /___/ ____/ /___/ _, _/
+/_/  |_|__/|__//____/  /_/ /_/_____/_____/_/   /_____/_/ |_|
+
+
 usage: main.py cognito [-h] [--list-users] [--before BEFORE] [--after AFTER] [--save]
 
 optional arguments:
