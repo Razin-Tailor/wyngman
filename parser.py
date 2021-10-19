@@ -8,6 +8,9 @@ class Parser:
         AWS Cognito Utilities
         use `aws-helper cognito -h` for more information
         """
+    CONFIGURE_HELP = """\
+        Provide your AWS Credentials
+        """
 
     def __init__(self):
         pass
@@ -24,6 +27,7 @@ class Parser:
             """
         )
         parser = argparse.ArgumentParser(
+            prog="aws-helper",
             description=description,
             formatter_class=argparse.RawTextHelpFormatter,
         )
@@ -34,11 +38,23 @@ class Parser:
             action="version",
             version=f"%(prog)s {C.VERSION}",
         )
+        parser.add_argument(
+            # "configure",
+            # metavar="configure",
+            action="store_true",
+            dest="configure",
+            help="Set your AWS Credentials",
+        )
         subparsers = parser.add_subparsers(dest="command")
 
         cognito_parser = subparsers.add_parser(
             "cognito",
             help=self.COGNITO_HELP,
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
+        configure_parser = subparsers.add_parser(
+            "configure",
+            help=self.CONFIGURE_HELP,
             formatter_class=argparse.RawTextHelpFormatter,
         )
         cognito_parser.add_argument(

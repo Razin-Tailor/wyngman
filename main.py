@@ -1,13 +1,16 @@
-import datetime
-import sys
-import boto3
-import pandas as pd
+from typing import Optional, Sequence
 
+import datetime
+import os
+import sys
 from parser import Parser
 
-from cognito import Cognito
-
+import boto3
+import pandas as pd
 from pyfiglet import Figlet
+
+from cognito import Cognito
+from utils import configure_aws_helper
 
 F = Figlet(font="slant")
 
@@ -79,25 +82,43 @@ def get_email(row):
 # print(sub_df["Email"])
 
 
-def main() -> int:
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    argv = argv if argv is not None else sys.argv[1:]
+    # Check if configuration is set
+    # if yes use it
+    # else prompt to set
+    # if not os.path.isdir("./.aws_helper"):
+    #     print(
+    #         "No Configuration File found. Please run aws-helper configure..."
+    #     )
+    #     raise SystemExit(-1)
+    # os.mkdir("./.aws_helper")
+    # configure_aws_helper()
+
     parser = Parser()
     arg_parser = parser.get_parser()
     print(F.renderText("AWS HELPER"))
-    if len(sys.argv) < 2:
-        arg_parser.print_help()
-        return 1
-    else:
-        opt = arg_parser.parse_args()
-        if sys.argv[1] == "cognito":
-            list_users = opt.list_users
-            before = opt.before
-            after = opt.after
-            save = opt.save
 
-            cognito = Cognito(
-                list_users=list_users, before=before, after=after, save=save
-            )
-            cognito.handle_cognito()
+    print("Argv:: ", argv)
+    if len(argv) == 0:
+        arg_parser.print_help()
+        # argv = ["--help"]
+    args = arg_parser.parse_args(argv)
+    print("Args:: ", args.command)
+    if args.command == "configure":
+        if not os.path.isdir("./.aws_helper"):
+            os.mkdir("./.aws_helper")
+        configure_aws_helper()
+    elif args.command == "cognito":
+        list_users = args.list_users
+        before = args.before
+        after = args.after
+        save = args.save
+
+        cognito = Cognito(
+            list_users=list_users, before=before, after=after, save=save
+        )
+        cognito.handle_cognito()
     return 0
 
 

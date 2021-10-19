@@ -1,4 +1,6 @@
 import datetime
+import json
+import os
 import boto3
 import pandas as pd
 import pytz
@@ -24,10 +26,27 @@ class Cognito:
         self.after = self._to_date(after)
         self.save = save
         self.LIMIT = 60
-
         # Create boto3 CognitoIdentityProvider client
-        self.client = boto3.client("cognito-idp", self.region)
-        self.pagination_token = ""
+        if not os.path.isfile("./.aws_helper/credentials.json"):
+            print(
+                "Credentials not Set... Please configure the tool before continuing"
+            )
+            raise SystemExit(-1)
+        else:
+            self.credentials = json.load(
+                open("./.aws_helper/credentials.json")
+            )
+            self.region = (
+                self.credentials["region"] if region is None else region
+            )
+            self.client = boto3.client(
+                "cognito-idp",
+                self.region,
+                aws_access_key_id=self.credentials["access_key"],
+                aws_secret_access_key=self.credentials["secret_key"],
+            )
+
+            self.pagination_token = ""
 
     def handle_cognito(self):
 
