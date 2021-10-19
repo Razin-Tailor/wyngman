@@ -3,10 +3,19 @@ import json
 import os
 import boto3
 import pandas as pd
+import tabulate
+
 import pytz
 
 REGION = "ap-south-1"
 USER_POOL_ID = "ap-south-1_IGJhSmqDG"
+TO_SHOW_USER_POOL_KEYS = [
+    "Id",
+    "Name",
+    "Status",
+    "LastModifiedDate",
+    "CreationDate",
+]
 
 
 class Cognito:
@@ -18,9 +27,11 @@ class Cognito:
         before: str = None,
         after: str = None,
         save: bool = False,
+        list_user_pools: bool = False,
     ):
         self.region = region
         self.user_pool_id = user_pool_id
+        self.list_user_pools = list_user_pools
         self.list_users = list_users
         self.before = self._to_date(before)
         self.after = self._to_date(after)
@@ -47,6 +58,30 @@ class Cognito:
             )
 
             self.pagination_token = ""
+            self.next_token = ""
+
+    def get_list_user_pools(self):
+        self.user_pool_list = []
+        while True:
+            user_records = self.get_user_pools()
+            self.user_pool_list = (
+                self.user_pool_list + user_records["UserPools"]
+            )
+            if "NextToken" in user_records.keys():
+                self.next_token = user_records["NextToken"]
+            else:
+                break
+        concise_list = []
+        for item in self.user_pool_list:
+            temp_dict = {}
+            for key, value in item.items():
+                if key in TO_SHOW_USER_POOL_KEYS:
+                    temp_dict[key] = value
+            concise_list.append(temp_dict)
+
+        header = concise_list[0].keys()
+        rows = [x.values() for x in concise_list]
+        print(tabulate.tabulate(rows, header, tablefmt="grid"))
 
     def handle_cognito(self):
 
@@ -101,6 +136,21 @@ class Cognito:
         )
 
     # Define function that utilize ListUsers AWS API call
+    def get_user_pools(self):
+
+        return (
+            self.client.list_user_pools(
+                # AttributesToGet = ['name'],
+                MaxResults=self.LIMIT,
+                NextToken=self.pagination_token,
+            )
+            if self.next_token
+            else self.client.list_user_pools(
+                # AttributesToGet = ['name'],
+                MaxResults=self.LIMIT,
+            )
+        )
+
     def get_list_cognito_users(self):
 
         return (

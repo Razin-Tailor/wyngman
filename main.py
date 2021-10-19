@@ -110,14 +110,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             os.mkdir("./.aws_helper")
         configure_aws_helper()
     elif args.command == "cognito":
+        list_user_pools = args.list_user_pools
+        region = args.region
+        user_pool_id = args.user_pool_id
         list_users = args.list_users
         before = args.before
         after = args.after
         save = args.save
 
         cognito = Cognito(
-            list_users=list_users, before=before, after=after, save=save
+            list_user_pools=list_user_pools,
+            region=region,
+            user_pool_id=user_pool_id,
+            list_users=list_users,
+            before=before,
+            after=after,
+            save=save,
         )
+        if list_user_pools:
+            cognito.get_list_user_pools()
         cognito.handle_cognito()
     return 0
 

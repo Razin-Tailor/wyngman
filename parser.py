@@ -58,6 +58,27 @@ class Parser:
             formatter_class=argparse.RawTextHelpFormatter,
         )
         cognito_parser.add_argument(
+            "--user-pool-id",
+            "-p",
+            type=str,
+            default=None,
+            help="Provide User Pool ID to Fetch Users",
+        )
+        cognito_parser.add_argument(
+            "--region",
+            "-r",
+            type=str,
+            default=None,
+            help="Provide AWS Region [Default: Configuration Region]",
+        )
+        cognito_parser.add_argument(
+            "--list-user-pools",
+            "-lu",
+            dest="list_user_pools",
+            action="store_true",
+            help="List All User Pools in a given region",
+        )
+        cognito_parser.add_argument(
             "--list-users",
             "-l",
             dest="list_users",
@@ -86,4 +107,5 @@ class Parser:
             action="store_true",
             help="Save as a CSV file",
         )
+
         return parser
