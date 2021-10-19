@@ -4,6 +4,9 @@ import os
 import boto3
 import pandas as pd
 import tabulate
+import warnings
+
+warnings.filterwarnings("ignore")
 
 import pytz
 
@@ -15,6 +18,13 @@ TO_SHOW_USER_POOL_KEYS = [
     "Status",
     "LastModifiedDate",
     "CreationDate",
+]
+TO_SHOW_USER_COLUMNS = [
+    "Email",
+    "UserCreateDate",
+    "UserLastModifiedDate",
+    "UserStatus",
+    "Enabled",
 ]
 
 
@@ -189,8 +199,14 @@ class Cognito:
                 continue
 
     def print_users(self):
-        print(self.df.to_string())
-
+        to_print = self.df[TO_SHOW_USER_COLUMNS]
+        to_print.sort_values(
+            by=["UserCreateDate"], ascending=False, inplace=True
+        )
+        # print(self.df.to_string())
+        header = TO_SHOW_USER_COLUMNS
+        rows = to_print.values.tolist()
+        print(tabulate.tabulate(rows, header, tablefmt="grid"))
         print(f" Total Users: {self.df.shape[0]} ".center(80, "*"))
         print(f" Finish ".center(80, "*"))
 
