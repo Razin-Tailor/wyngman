@@ -8,6 +8,9 @@ class Parser:
         AWS Cognito Utilities
         use `aws-helper cognito -h` for more information
         """
+    CONFIGURE_HELP = """\
+        Provide your AWS Credentials
+        """
 
     def __init__(self):
         pass
@@ -24,6 +27,7 @@ class Parser:
             """
         )
         parser = argparse.ArgumentParser(
+            prog="aws-helper",
             description=description,
             formatter_class=argparse.RawTextHelpFormatter,
         )
@@ -34,12 +38,45 @@ class Parser:
             action="version",
             version=f"%(prog)s {C.VERSION}",
         )
+        parser.add_argument(
+            # "configure",
+            # metavar="configure",
+            action="store_true",
+            dest="configure",
+            help="Set your AWS Credentials",
+        )
         subparsers = parser.add_subparsers(dest="command")
 
         cognito_parser = subparsers.add_parser(
             "cognito",
             help=self.COGNITO_HELP,
             formatter_class=argparse.RawTextHelpFormatter,
+        )
+        configure_parser = subparsers.add_parser(
+            "configure",
+            help=self.CONFIGURE_HELP,
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
+        cognito_parser.add_argument(
+            "--user-pool-id",
+            "-p",
+            type=str,
+            default=None,
+            help="Provide User Pool ID to Fetch Users",
+        )
+        cognito_parser.add_argument(
+            "--region",
+            "-r",
+            type=str,
+            default=None,
+            help="Provide AWS Region [Default: Configuration Region]",
+        )
+        cognito_parser.add_argument(
+            "--list-user-pools",
+            "-lu",
+            dest="list_user_pools",
+            action="store_true",
+            help="List All User Pools in a given region",
         )
         cognito_parser.add_argument(
             "--list-users",
@@ -70,4 +107,5 @@ class Parser:
             action="store_true",
             help="Save as a CSV file",
         )
+
         return parser
