@@ -87,6 +87,13 @@ class Parser:
             help='list all users in aws cognito',
         )
         cognito_parser.add_argument(
+            '--count',
+            '-c',
+            dest='count_users',
+            action='store_true',
+            help='Return Count of users',
+        )
+        cognito_parser.add_argument(
             '--before',
             '-b',
             type=str,

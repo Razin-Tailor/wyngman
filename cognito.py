@@ -40,6 +40,7 @@ class Cognito:
         after: str = None,
         save: bool = False,
         list_user_pools: bool = False,
+        count_users: bool = False,
     ):
         self.region = region
         self.user_pool_id = user_pool_id
@@ -49,6 +50,7 @@ class Cognito:
         self.after = self._to_date(after)
         self.save = save
         self.LIMIT = 60
+        self.count_users = count_users
         # Create boto3 CognitoIdentityProvider client
         if not os.path.isfile('./.aws_helper/credentials.json'):
             print(
@@ -94,29 +96,6 @@ class Cognito:
         header = concise_list[0].keys()
         rows = [x.values() for x in concise_list]
         print(tabulate.tabulate(rows, header, tablefmt='grid'))
-
-    def handle_cognito(self):
-
-        if not self.list_users and not self.save:
-            raise SystemExit(
-                'No action flag provided. Please use `--help` for more information.',
-            )
-        else:
-            # print(' Fetching Users '.center(80, '*'))
-            spinner = Halo(text='Fetching Users', spinner='dots')
-            spinner.start()
-            self.list_all_users()
-            self.modify_df()
-            if self.list_users and self.save:
-                self.print_users(spinner=spinner)
-                self.save_data()
-                spinner.succeed('User Data Saved Successfully')
-            elif self.save:
-                self.save_data()
-                spinner.succeed('User Data Saved Successfully')
-            else:
-                self.print_users(spinner=spinner)
-                spinner.succeed('Finish')
 
     def save_data(self):
         print(' Saving Users '.center(80, '*'))
@@ -218,6 +197,9 @@ class Cognito:
         print(tabulate.tabulate(rows, header, tablefmt='grid'))
         spinner.info(f' Total Users: {self.df.shape[0]} ')
 
+    def print_user_count(self, spinner: Halo):
+        spinner.info(f' Total Users: {self.df.shape[0]} ')
+
     def to_csv(self):
         if self.before is not None or self.after is not None:
             self.df.to_csv(
@@ -231,3 +213,30 @@ class Cognito:
                 index=False,
                 columns=self.df.columns,
             )
+
+    def handle_cognito(self):
+
+        if not self.list_users and not self.save and not self.count_users:
+            raise SystemExit(
+                'No action flag provided. Please use `--help` for more information.',
+            )
+        else:
+            # print(' Fetching Users '.center(80, '*'))
+            spinner = Halo(text='Fetching Users', spinner='dots')
+            spinner.start()
+            self.list_all_users()
+            spinner.stop()
+            self.modify_df()
+            if self.count_users:
+                self.print_user_count(spinner)
+
+            elif self.list_users and self.save:
+                self.print_users(spinner=spinner)
+                self.save_data()
+                spinner.succeed('User Data Saved Successfully')
+            elif self.save:
+                self.save_data()
+                spinner.succeed('User Data Saved Successfully')
+            else:
+                self.print_users(spinner=spinner)
+                spinner.succeed('Finish')

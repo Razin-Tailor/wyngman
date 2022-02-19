@@ -48,6 +48,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             before = args.before
             after = args.after
             save = args.save
+            count_users = args.count_users
 
             cognito = Cognito(
                 list_user_pools=list_user_pools,
@@ -57,6 +58,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 before=before,
                 after=after,
                 save=save,
+                count_users=count_users,
             )
             if list_user_pools:
                 cognito.get_list_user_pools()
