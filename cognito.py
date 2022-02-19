@@ -7,6 +7,7 @@ import boto3
 import pandas as pd
 import pytz
 import tabulate
+from halo import Halo
 
 warnings.filterwarnings('ignore')
 
@@ -101,16 +102,21 @@ class Cognito:
                 'No action flag provided. Please use `--help` for more information.',
             )
         else:
-            print(' Fetching Users '.center(80, '*'))
+            # print(' Fetching Users '.center(80, '*'))
+            spinner = Halo(text='Fetching Users', spinner='dots')
+            spinner.start()
             self.list_all_users()
             self.modify_df()
             if self.list_users and self.save:
-                self.print_users()
+                self.print_users(spinner=spinner)
                 self.save_data()
+                spinner.succeed('User Data Saved Successfully')
             elif self.save:
                 self.save_data()
+                spinner.succeed('User Data Saved Successfully')
             else:
-                self.print_users()
+                self.print_users(spinner=spinner)
+                spinner.succeed('Finish')
 
     def save_data(self):
         print(' Saving Users '.center(80, '*'))
@@ -199,24 +205,29 @@ class Cognito:
             else:
                 continue
 
-    def print_users(self):
+    def print_users(self, spinner: Halo):
         to_print = self.df[TO_SHOW_USER_COLUMNS]
         to_print.sort_values(
-            by=['UserCreateDate'], ascending=False, inplace=True,
+            by=['UserCreateDate'],
+            ascending=False,
+            inplace=True,
         )
         # print(self.df.to_string())
         header = TO_SHOW_USER_COLUMNS
         rows = to_print.values.tolist()
         print(tabulate.tabulate(rows, header, tablefmt='grid'))
-        print(f' Total Users: {self.df.shape[0]} '.center(80, '*'))
-        print(f' Finish '.center(80, '*'))
+        spinner.info(f' Total Users: {self.df.shape[0]} ')
 
     def to_csv(self):
         if self.before is not None or self.after is not None:
             self.df.to_csv(
-                './user_subset.csv', index=False, columns=self.df.columns,
+                './user_subset.csv',
+                index=False,
+                columns=self.df.columns,
             )
         else:
             self.df.to_csv(
-                './all_users.csv', index=False, columns=self.df.columns,
+                './all_users.csv',
+                index=False,
+                columns=self.df.columns,
             )
