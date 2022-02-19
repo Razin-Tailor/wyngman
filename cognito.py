@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 
 
 REGION = 'ap-south-1'
-USER_POOL_ID = 'ap-south-1_IGJhSmqDG'
+
 TO_SHOW_USER_POOL_KEYS = [
     'Id',
     'Name',
