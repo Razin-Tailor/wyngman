@@ -1,5 +1,6 @@
 import argparse
 import textwrap
+
 import constants as C
 
 
@@ -24,88 +25,88 @@ class Parser:
             """\
             This is helper function to support AWS Utilities that are not directly supported by AWS
             Make Sure you have aws-cli setup locally so that the cliendID and client-secret can be accessed by the tool
-            """
+            """,
         )
         parser = argparse.ArgumentParser(
-            prog="aws-helper",
+            prog='aws-helper',
             description=description,
             formatter_class=argparse.RawTextHelpFormatter,
         )
         # https://stackoverflow.com/a/8521644/812183
         parser.add_argument(
-            "-V",
-            "--version",
-            action="version",
-            version=f"%(prog)s {C.VERSION}",
+            '-V',
+            '--version',
+            action='version',
+            version=f'%(prog)s {C.VERSION}',
         )
         parser.add_argument(
             # "configure",
             # metavar="configure",
-            action="store_true",
-            dest="configure",
-            help="Set your AWS Credentials",
+            action='store_true',
+            dest='configure',
+            help='Set your AWS Credentials',
         )
-        subparsers = parser.add_subparsers(dest="command")
+        subparsers = parser.add_subparsers(dest='command')
 
         cognito_parser = subparsers.add_parser(
-            "cognito",
+            'cognito',
             help=self.COGNITO_HELP,
             formatter_class=argparse.RawTextHelpFormatter,
         )
         configure_parser = subparsers.add_parser(
-            "configure",
+            'configure',
             help=self.CONFIGURE_HELP,
             formatter_class=argparse.RawTextHelpFormatter,
         )
         cognito_parser.add_argument(
-            "--user-pool-id",
-            "-p",
+            '--user-pool-id',
+            '-p',
             type=str,
             default=None,
-            help="Provide User Pool ID to Fetch Users",
+            help='Provide User Pool ID to Fetch Users',
         )
         cognito_parser.add_argument(
-            "--region",
-            "-r",
+            '--region',
+            '-r',
             type=str,
             default=None,
-            help="Provide AWS Region [Default: Configuration Region]",
+            help='Provide AWS Region [Default: Configuration Region]',
         )
         cognito_parser.add_argument(
-            "--list-user-pools",
-            "-lu",
-            dest="list_user_pools",
-            action="store_true",
-            help="List All User Pools in a given region",
+            '--list-user-pools',
+            '-lu',
+            dest='list_user_pools',
+            action='store_true',
+            help='List All User Pools in a given region',
         )
         cognito_parser.add_argument(
-            "--list-users",
-            "-l",
-            dest="list_users",
-            action="store_true",
-            help="list all users in aws cognito",
+            '--list-users',
+            '-l',
+            dest='list_users',
+            action='store_true',
+            help='list all users in aws cognito',
         )
         cognito_parser.add_argument(
-            "--before",
-            "-b",
+            '--before',
+            '-b',
             type=str,
             default=None,
-            help="All users before date Date in format yyyy-mm-dd",
+            help='All users before date Date in format yyyy-mm-dd',
         )
         cognito_parser.add_argument(
-            "--after",
-            "-a",
+            '--after',
+            '-a',
             type=str,
             default=None,
-            help="All users after date Date in format yyyy-mm-dd",
+            help='All users after date Date in format yyyy-mm-dd',
         )
 
         cognito_parser.add_argument(
-            "--save",
-            "-s",
-            dest="save",
-            action="store_true",
-            help="Save as a CSV file",
+            '--save',
+            '-s',
+            dest='save',
+            action='store_true',
+            help='Save as a CSV file',
         )
 
         return parser
