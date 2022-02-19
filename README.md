@@ -1,3 +1,5 @@
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
 # AWS Helper
 
 A tool to enhance the AWS utilities. It is dependent on _boto3_ which utilizes `.aws/credentials`. Please have it setup.
