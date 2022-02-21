@@ -34,14 +34,21 @@ foo@bar:~$ aws-helper cognito --help
 /_/  |_|__/|__//____/  /_/ /_/_____/_____/_/   /_____/_/ |_|
 
 
-usage: main.py cognito [-h] [--list-users] [--before BEFORE] [--after AFTER] [--save]
+usage: aws-helper cognito [-h] [--user-pool-id USER_POOL_ID] [--region REGION] [--list-user-pools] [--list-users | --count] [--before BEFORE] [--after AFTER] [--save]
 
 optional arguments:
   -h, --help            show this help message and exit
+  --user-pool-id USER_POOL_ID, -p USER_POOL_ID
+                        Provide User Pool ID to Fetch Users
+  --region REGION, -r REGION
+                        Provide AWS Region [Default: Configuration Region]
+  --list-user-pools, -lu
+                        List All User Pools in a given region
   --list-users, -l      list all users in aws cognito
+  --count, -c           Return Count of users
   --before BEFORE, -b BEFORE
-                        all users before date Date in format yyyy-mm-dd
+                        All users before date Date in format yyyy-mm-dd
   --after AFTER, -a AFTER
-                        all users after date Date in format yyyy-mm-dd
+                        All users after date Date in format yyyy-mm-dd
   --save, -s            Save as a CSV file
 ```
