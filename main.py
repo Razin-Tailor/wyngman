@@ -1,12 +1,9 @@
-import datetime
 import os
 import sys
 from os.path import expanduser
 from typing import Optional
 from typing import Sequence
 
-import boto3
-import pandas as pd
 from pyfiglet import Figlet
 
 from aws_arg_parser import Parser
@@ -39,7 +36,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     elif args.command == 'cognito':
         if not is_configured():
             raise SystemExit(
-                'You need to configure the tool. Please run `aws-helper configure`',
+                (
+                    'You need to configure the tool.'
+                    'Please run `aws-helper configure`',
+                ),
             )
         else:
             list_user_pools = args.list_user_pools

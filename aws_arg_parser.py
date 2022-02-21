@@ -17,14 +17,19 @@ class Parser:
         pass
 
     def get_parser(self) -> argparse.ArgumentParser:
-        """This function returns a parser object that will serve as entry point to the Plugin
+        """
+        This function returns a parser object \
+            that will serve as entry point to the Plugin
+
         Return: argumentParser
         """
 
         description = textwrap.dedent(
             """\
-            This is helper function to support AWS Utilities that are not directly supported by AWS
-            Make Sure you have aws-cli setup locally so that the cliendID and client-secret can be accessed by the tool
+            This is helper function to support AWS Utilities
+
+            Make Sure you have aws-cli setup locally
+            The tool uses cliendID and client-secret
             """,
         )
         parser = argparse.ArgumentParser(
@@ -53,7 +58,7 @@ class Parser:
             help=self.COGNITO_HELP,
             formatter_class=argparse.RawTextHelpFormatter,
         )
-        configure_parser = subparsers.add_parser(
+        _ = subparsers.add_parser(
             'configure',
             help=self.CONFIGURE_HELP,
             formatter_class=argparse.RawTextHelpFormatter,

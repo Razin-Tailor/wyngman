@@ -5,7 +5,6 @@ import warnings
 
 import boto3
 import pandas as pd
-import pytz
 import tabulate
 from halo import Halo
 
@@ -55,7 +54,8 @@ class Cognito:
         spinner = Halo(spinner='dots')
         if not os.path.isfile('./.aws_helper/credentials.json'):
             spinner.fail(
-                'Credentials not Set... Please configure the tool before continuing',
+                'Credentials not Set...'
+                ' Please configure the tool before continuing',
             )
             raise SystemExit(-1)
         elif self.user_pool_id is None or len(self.user_pool_id) == 0:
@@ -104,9 +104,10 @@ class Cognito:
         print(tabulate.tabulate(rows, header, tablefmt='grid'))
 
     def save_data(self):
-        print(' Saving Users '.center(80, '*'))
+        spinner = Halo(text='Saving Users', spinner='dots')
+        spinner.start()
         self.to_csv()
-        print(f' Finish '.center(80, '*'))
+        spinner.succeed('User Data saved successfully')
 
     def modify_df(self):
         df = pd.DataFrame(self.user_list)
@@ -221,14 +222,16 @@ class Cognito:
             )
 
     def handle_cognito(self):
+        spinner = Halo(text='Fetching Users', spinner='dots')
 
         if not self.list_users and not self.save and not self.count_users:
-            raise SystemExit(
-                'No action flag provided. Please use `--help` for more information.',
+            spinner.fail(
+                'No action flag provided.'
+                ' Please use `--help` for more information.',
             )
+            raise SystemExit(-1)
         else:
             # print(' Fetching Users '.center(80, '*'))
-            spinner = Halo(text='Fetching Users', spinner='dots')
             spinner.start()
             self.list_all_users()
             spinner.stop()
@@ -239,10 +242,10 @@ class Cognito:
             elif self.list_users and self.save:
                 self.print_users(spinner=spinner)
                 self.save_data()
-                spinner.succeed('User Data Saved Successfully')
+
             elif self.save:
                 self.save_data()
-                spinner.succeed('User Data Saved Successfully')
+
             else:
                 self.print_users(spinner=spinner)
                 spinner.succeed('Finish')
