@@ -79,14 +79,15 @@ class Parser:
             action='store_true',
             help='List All User Pools in a given region',
         )
-        cognito_parser.add_argument(
+        mutex = cognito_parser.add_mutually_exclusive_group()
+        mutex.add_argument(
             '--list-users',
             '-l',
             dest='list_users',
             action='store_true',
             help='list all users in aws cognito',
         )
-        cognito_parser.add_argument(
+        mutex.add_argument(
             '--count',
             '-c',
             dest='count_users',

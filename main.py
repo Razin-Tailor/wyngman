@@ -2,7 +2,6 @@ import datetime
 import os
 import sys
 from os.path import expanduser
-from parser import Parser
 from typing import Optional
 from typing import Sequence
 
@@ -10,6 +9,7 @@ import boto3
 import pandas as pd
 from pyfiglet import Figlet
 
+from aws_arg_parser import Parser
 from cognito import Cognito
 from utils import configure_aws_helper
 from utils import is_configured
@@ -25,6 +25,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     # print("Argv:: ", argv)
     if len(argv) == 0:
+        # raise SystemExit(-1)
         arg_parser.print_help()
     args = arg_parser.parse_args(argv)
 
