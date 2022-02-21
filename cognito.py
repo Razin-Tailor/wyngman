@@ -52,9 +52,15 @@ class Cognito:
         self.LIMIT = 60
         self.count_users = count_users
         # Create boto3 CognitoIdentityProvider client
+        spinner = Halo(spinner='dots')
         if not os.path.isfile('./.aws_helper/credentials.json'):
-            print(
+            spinner.fail(
                 'Credentials not Set... Please configure the tool before continuing',
+            )
+            raise SystemExit(-1)
+        elif self.user_pool_id is None or len(self.user_pool_id) == 0:
+            spinner.fail(
+                'Please provide a valid user pool id to fetch users',
             )
             raise SystemExit(-1)
         else:
