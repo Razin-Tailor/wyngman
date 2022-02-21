@@ -6,6 +6,8 @@ A tool to enhance the AWS utilities. It is dependent on _boto3_ which utilizes `
 
 One way is to setup _aws-cli_
 
+Otherwise use `aws-helper configure`
+
 # Currently Supporting
 
 ## AWS Cognito
