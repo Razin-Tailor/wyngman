@@ -18,34 +18,40 @@ def configure_aws_helper() -> None:
         {
             'type': 'input',
             'name': 'access_key',
-            'message': 'AWS Access Key ID [None]',
+            'message': 'AWS Access Key ID',
         },
         {
             'type': 'input',
             'name': 'secret_key',
-            'message': 'AWS Secret Access Key [None]',
+            'message': 'AWS Secret Access Key',
         },
         {
             'type': 'input',
             'name': 'region',
-            'message': 'Default region name [None]',
+            'message': 'Default region name',
         },
         {
             'type': 'input',
             'name': 'output_fmt',
-            'message': 'Default output format [None]',
+            'message': 'Default output format',
         },
     ]
 
     home = expanduser('~')
     helper_path = os.path.join(home, '.aws_helper')
+    fpath = os.path.join(helper_path, 'credentials.json')
 
-    answers = prompt(questions, keyboard_interrupt_msg='Aborted!')
-    for key, value in answers.items():
-        if len(value) == 0:
-            answers[key] = None
-
-    if not os.path.isdir(helper_path):
-        os.mkdir(helper_path)
-    with open(os.path.join(helper_path, 'credentials.json'), 'w+') as f:
-        json.dump(answers, f)
+    write_perm = os.access(fpath, os.W_OK)  # Check for write access
+    if (write_perm):
+        answers = prompt(questions, keyboard_interrupt_msg='Aborted!')
+        for key, value in answers.items():
+            if len(value) == 0:
+                answers[key] = None
+        if not os.path.isdir(helper_path):
+            os.mkdir(helper_path)
+        with open(os.path.join(helper_path, 'credentials.json'), 'w+') as f:
+            json.dump(answers, f)
+    else:
+        raise PermissionError(
+            'Tool doesnot have permission to save credentials. Make sure you have appropriate permissions',
+        )

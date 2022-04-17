@@ -41,6 +41,7 @@ class Cognito:
         list_user_pools: bool = False,
         count_users: bool = False,
     ):
+        print(list_user_pools)
         self.region = region
         self.user_pool_id = user_pool_id
         self.list_user_pools = list_user_pools
@@ -52,24 +53,31 @@ class Cognito:
         self.count_users = count_users
         # Create boto3 CognitoIdentityProvider client
         spinner = Halo(spinner='dots')
-        if not os.path.isfile('./.aws_helper/credentials.json'):
+        if not os.path.isfile(os.path.join(os.path.expanduser('~'), '.aws_helper/credentials.json')):
             spinner.fail(
                 'Credentials not Set...'
                 ' Please configure the tool before continuing',
             )
             raise SystemExit(-1)
-        elif self.user_pool_id is None or len(self.user_pool_id) == 0:
+
+        elif (self.user_pool_id is None or len(self.user_pool_id) == 0) and self.list_user_pools == False:
             spinner.fail(
-                'Please provide a valid user pool id to fetch users',
+                'Please provide a valid parameter. (`-lu` or `-p USER_POOL_ID` )',
             )
             raise SystemExit(-1)
         else:
             self.credentials = json.load(
-                open('./.aws_helper/credentials.json'),
+                open(
+                    os.path.join(
+                        os.path.expanduser('~'),
+                        '.aws_helper/credentials.json',
+                    ),
+                ),
             )
             self.region = (
                 self.credentials['region'] if region == '' else region
             )
+            print(f'{self.region} {self.credentials}')
             self.client = boto3.client(
                 'cognito-idp',
                 self.region,
@@ -98,10 +106,14 @@ class Cognito:
                 if key in TO_SHOW_USER_POOL_KEYS:
                     temp_dict[key] = value
             concise_list.append(temp_dict)
-
-        header = concise_list[0].keys()
-        rows = [x.values() for x in concise_list]
-        print(tabulate.tabulate(rows, header, tablefmt='grid'))
+        print(f'{concise_list=}')
+        if len(concise_list) == 0:
+            spinner = Halo(text='No User Pool Available', spinner='dots')
+            spinner.fail('No User Pool Available')
+        else:
+            header = concise_list[0].keys()
+            rows = [x.values() for x in concise_list]
+            print(tabulate.tabulate(rows, header, tablefmt='grid'))
 
     def save_data(self):
         spinner = Halo(text='Saving Users', spinner='dots')
@@ -225,11 +237,12 @@ class Cognito:
         spinner = Halo(text='Fetching Users', spinner='dots')
 
         if not self.list_users and not self.save and not self.count_users:
-            spinner.fail(
-                'No action flag provided.'
-                ' Please use `--help` for more information.',
-            )
-            raise SystemExit(-1)
+            if not self.list_user_pools:
+                spinner.fail(
+                    'No action flag provided.'
+                    ' Please use `--help` for more information.',
+                )
+                raise SystemExit(-1)
         else:
             # print(' Fetching Users '.center(80, '*'))
             spinner.start()

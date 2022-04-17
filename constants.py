@@ -5,4 +5,4 @@ if sys.version_info < (3, 8):  # pragma: no cover (<PY38)
 else:  # pragma: no cover (PY38+)
     import importlib.metadata as importlib_metadata
 
-VERSION = importlib_metadata.version('pandas')
+VERSION = '0.0.1'

@@ -18,7 +18,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     argv = argv if argv is not None else sys.argv[1:]
     parser = Parser()
     arg_parser = parser.get_parser()
-    print(F.renderText('AWS HELPER'))
 
     # print("Argv:: ", argv)
     if len(argv) == 0:
@@ -27,13 +26,21 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = arg_parser.parse_args(argv)
 
     if args.command == 'configure':
+        print(F.renderText('AWS HELPER'))
         home = expanduser('~')
-        print(home)
+
         helper_path = os.path.join(home, '.aws_helper')
         if not os.path.isdir(helper_path):
-            os.mkdir(helper_path)
-        configure_aws_helper()
+            try:
+                os.mkdir(helper_path)
+            except Exception as e:
+                raise (e)
+        try:
+            configure_aws_helper()
+        except Exception as e:
+            raise SystemExit(e)
     elif args.command == 'cognito':
+        print(F.renderText('AWS HELPER'))
         if not is_configured():
             raise SystemExit(
                 (
@@ -50,7 +57,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             after = args.after
             save = args.save
             count_users = args.count_users
-
+            print(args)
             cognito = Cognito(
                 list_user_pools=list_user_pools,
                 region=region,
