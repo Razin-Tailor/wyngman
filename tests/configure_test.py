@@ -43,6 +43,9 @@ def with_permission_configure_data():
     elif not os.path.isdir(CONFIG_PATH):
         os.makedirs(CONFIG_PATH)
     # Add Permission to Write
+    status = os.stat(CONFIG_PATH)
+    current_status = int(oct(status.st_mode)[-3:], 8)
+
     os.chmod(CONFIG_PATH, 0o755)
     data = {
         'access_key': 'AKIAJ25KSNP7LLSFWS5A',
@@ -51,6 +54,7 @@ def with_permission_configure_data():
         'output_fmt': 'json',
     }
     yield data
+    os.chmod(CONFIG_PATH, current_status)
     if os.path.isfile(CREDENTIALS_PATH):
         os.remove(CREDENTIALS_PATH)
 
