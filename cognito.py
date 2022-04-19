@@ -40,6 +40,7 @@ class Cognito:
         save: bool = False,
         list_user_pools: bool = False,
         count_users: bool = False,
+        test: bool = False,
     ):
         print(list_user_pools)
         self.region = region
@@ -51,6 +52,7 @@ class Cognito:
         self.save = save
         self.LIMIT = 60
         self.count_users = count_users
+        self.test = test
         # Create boto3 CognitoIdentityProvider client
         spinner = Halo(spinner='dots')
         if not os.path.isfile(os.path.join(os.path.expanduser('~'), '.aws_helper/credentials.json')):
@@ -217,7 +219,10 @@ class Cognito:
         spinner.info(f' Total Users: {self.df.shape[0]} ')
 
     def print_user_count(self, spinner: Halo):
-        spinner.info(f' Total Users: {self.df.shape[0]} ')
+        if self.test:
+            print(f' Total Users: {self.df.shape[0]} ')
+        else:
+            spinner.info(f' Total Users: {self.df.shape[0]} ')
 
     def to_csv(self):
         if self.before is not None or self.after is not None:
