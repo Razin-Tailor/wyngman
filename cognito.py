@@ -221,8 +221,11 @@ class Cognito:
         # print(self.df.to_string())
         header = TO_SHOW_USER_COLUMNS
         rows = to_print.values.tolist()
-        print(tabulate.tabulate(rows, header, tablefmt='grid'))
-        spinner.info(f' Total Users: {self.df.shape[0]} ')
+        if os.getenv('mode') == 'test':
+            print([x[0] for x in rows])
+        else:
+            print(tabulate.tabulate(rows, header, tablefmt='grid'))
+            spinner.info(f' Total Users: {self.df.shape[0]} ')
 
     def print_user_count(self, spinner: Halo):
         if os.getenv('mode') == 'test':

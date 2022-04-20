@@ -126,7 +126,7 @@ def test_total_users(setup_users, capsys):
 
 def test_no_user_pool_id_provided():
     """Raise an exception if no user-pool-id is provided"""
-    with pytest.raises(TypeError) as exinfo:
+    with pytest.raises(TypeError):
         cog = Cognito(
             region=os.getenv('region'),
             count_users=True,
@@ -144,3 +144,16 @@ def test_user_pool_doesnot_exist(configure):
             count_users=True,
         )
         cog.handle_cognito()
+
+
+def test_list_all_users(setup_users, capsys):
+
+    cog = Cognito(
+        user_pool_id=os.getenv('user-pool-id'),
+        region=os.getenv('region'),
+        list_users=True,
+    )
+    cog.handle_cognito()
+    captured = capsys.readouterr()
+    print(captured)
+    assert "['a@b.c', 'd@e.f', 'g@h.i']" in captured.out
