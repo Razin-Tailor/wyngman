@@ -1,13 +1,13 @@
 """
 Test no argument passed
-0. -- Test total users
-1. Test list all users
-5. Test before date
-6. Test after date
-7. Test before and after
-8. Test show and save for 4, 5, 6, 7
+1. -- Test total users
+2. -- Test list all users
+3. Test before date
+4. Test after date
+5. Test before and after
+6. Test show and save for all users and 3,4,5
 9. -- catch no user pool id provided for cognito class
-10. check user-pool doesnot exist
+10. -- check user-pool doesnot exist
 """
 import os
 import sys
@@ -147,6 +147,7 @@ def test_user_pool_doesnot_exist(configure):
 
 
 def test_list_all_users(setup_users, capsys):
+    """Tests the list_users functionality"""
 
     cog = Cognito(
         user_pool_id=os.getenv('user-pool-id'),
@@ -157,3 +158,35 @@ def test_list_all_users(setup_users, capsys):
     captured = capsys.readouterr()
     print(captured)
     assert "['a@b.c', 'd@e.f', 'g@h.i']" in captured.out
+
+
+def test_save_all_users(setup_users):
+    """Tests save all users"""
+    cog = Cognito(
+        user_pool_id=os.getenv('user-pool-id'),
+        region=os.getenv('region'),
+        save=True,
+    )
+
+    cog.handle_cognito()
+
+    assert os.path.isfile('./all_users.csv') == True
+    os.remove('./all_users.csv')
+
+
+def test_list_all_users_and_save(setup_users, capsys):
+    """Tests list all users and also save them as a csv"""
+
+    cog = Cognito(
+        user_pool_id=os.getenv('user-pool-id'),
+        region=os.getenv('region'),
+        save=True,
+        list_users=True,
+    )
+
+    cog.handle_cognito()
+
+    captured = capsys.readouterr()
+    assert "['a@b.c', 'd@e.f', 'g@h.i']" in captured.out
+    assert os.path.isfile('./all_users.csv') == True
+    os.remove('./all_users.csv')
