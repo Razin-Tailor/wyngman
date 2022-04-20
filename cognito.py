@@ -6,7 +6,11 @@ import warnings
 import boto3
 import pandas as pd
 import tabulate
+from dotenv import load_dotenv
 from halo import Halo
+
+load_dotenv()
+
 
 warnings.filterwarnings('ignore')
 
@@ -169,21 +173,23 @@ class Cognito:
         )
 
     def get_list_cognito_users(self):
-
-        return (
-            self.client.list_users(
-                UserPoolId=self.user_pool_id,
-                # AttributesToGet = ['name'],
-                Limit=self.LIMIT,
-                PaginationToken=self.pagination_token,
+        try:
+            return (
+                self.client.list_users(
+                    UserPoolId=self.user_pool_id,
+                    # AttributesToGet = ['name'],
+                    Limit=self.LIMIT,
+                    PaginationToken=self.pagination_token,
+                )
+                if self.pagination_token
+                else self.client.list_users(
+                    UserPoolId=self.user_pool_id,
+                    # AttributesToGet = ['name'],
+                    Limit=self.LIMIT,
+                )
             )
-            if self.pagination_token
-            else self.client.list_users(
-                UserPoolId=self.user_pool_id,
-                # AttributesToGet = ['name'],
-                Limit=self.LIMIT,
-            )
-        )
+        except Exception:
+            raise ValueError('User Pool ID is not valid')
 
     def list_all_users(self):
         # Pull Batch of Amazon Cognito User Pool records
@@ -219,7 +225,7 @@ class Cognito:
         spinner.info(f' Total Users: {self.df.shape[0]} ')
 
     def print_user_count(self, spinner: Halo):
-        if self.test:
+        if os.getenv('mode') == 'test':
             print(f' Total Users: {self.df.shape[0]} ')
         else:
             spinner.info(f' Total Users: {self.df.shape[0]} ')

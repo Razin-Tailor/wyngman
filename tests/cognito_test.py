@@ -1,14 +1,12 @@
 """
 Test no argument passed
-1. Test credential file existence
-2. Test correctness of credential file
-3. Test Correct initialization of Cognito Class
-4. Test list all users
+0. -- Test total users
+1. Test list all users
 5. Test before date
 6. Test after date
 7. Test before and after
 8. Test show and save for 4, 5, 6, 7
-9. catch no user id provided for cognito class
+9. -- catch no user pool id provided for cognito class
 10. check user-pool doesnot exist
 """
 import os
@@ -106,6 +104,11 @@ def clean_output(output: str) -> str:
 
 
 def test_total_users(setup_users, capsys):
+    """
+    Testing the total users for a user-pool-id
+    Should return 3
+    """
+
     user_pool_id = os.getenv('user-pool-id')
     print(f'{user_pool_id=}')
     print(f"{user_pool_id=} {os.getenv('user-pool-id')} {os.getenv('region')}")
@@ -113,10 +116,31 @@ def test_total_users(setup_users, capsys):
         user_pool_id=os.getenv('user-pool-id'),
         region=os.getenv('region'),
         count_users=True,
-        test=True,
     )
     cog.handle_cognito()
     captured = capsys.readouterr()
     print(captured)
 
     assert 'Total Users: 3' in captured.out
+
+
+def test_no_user_pool_id_provided():
+    """Raise an exception if no user-pool-id is provided"""
+    with pytest.raises(TypeError) as exinfo:
+        cog = Cognito(
+            region=os.getenv('region'),
+            count_users=True,
+        )
+        cog.handle_cognito()
+
+
+def test_user_pool_doesnot_exist(configure):
+    """Raise Value Error oif user pool doesnot exist"""
+    with pytest.raises(ValueError):
+        configure_aws_helper(configure)
+        cog = Cognito(
+            user_pool_id='somerandomstring',
+            region=os.getenv('region'),
+            count_users=True,
+        )
+        cog.handle_cognito()
