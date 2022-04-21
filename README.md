@@ -1,12 +1,8 @@
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) [coverage](https://img.shields.io/badge/coverage-81%25-green)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) ![coverage](https://img.shields.io/badge/coverage-81%25-green)
 
 # AWS Helper
 
-A tool to enhance the AWS utilities. It is dependent on _boto3_ which utilizes `.aws/credentials`. Please have it setup.
-
-One way is to setup _aws-cli_
-
-Otherwise use `aws-helper configure`
+Use `aws-helper configure` to configure the tool
 
 # Currently Supporting
 
@@ -27,12 +23,6 @@ A Querying support for AWS Cognito
 
 ```console
 foo@bar:~$ aws-helper cognito --help
-    ___ _       _______    __  __________    ____  __________
-   /   | |     / / ___/   / / / / ____/ /   / __ \/ ____/ __ \
-  / /| | | /| / /\__ \   / /_/ / __/ / /   / /_/ / __/ / /_/ /
- / ___ | |/ |/ /___/ /  / __  / /___/ /___/ ____/ /___/ _, _/
-/_/  |_|__/|__//____/  /_/ /_/_____/_____/_/   /_____/_/ |_|
-
 
 usage: aws-helper cognito [-h] [--user-pool-id USER_POOL_ID] [--region REGION] [--list-user-pools] [--list-users | --count] [--before BEFORE] [--after AFTER] [--save]
 
