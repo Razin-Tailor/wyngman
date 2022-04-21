@@ -257,6 +257,8 @@ def test_list_users_before_date(setup_users, capsys):
 
 
 def test_cognito_valid_parameter(configure):
+    """Test SystemExit on violation of valid params"""
+
     configure_aws_helper(configure)
 
     with pytest.raises(SystemExit):
@@ -269,6 +271,8 @@ def test_cognito_valid_parameter(configure):
 
 
 def test_list_user_pools(configure, capsys):
+    """Test user pools"""
+
     configure_aws_helper(configure)
 
     cog = Cognito(
@@ -281,3 +285,17 @@ def test_list_user_pools(configure, capsys):
     captured = capsys.readouterr()
     print(captured)
     assert 'test' in captured.out
+
+
+def test_no_action_flag_provided():
+    with pytest.raises(SystemExit):
+
+        cog = Cognito(
+            user_pool_id=None,
+            region=os.getenv('region'),
+            list_user_pools=False,
+            list_users=False,
+            count_users=False,
+            save=False,
+        )
+        cog.handle_cognito()
