@@ -190,3 +190,94 @@ def test_list_all_users_and_save(setup_users, capsys):
     assert "['a@b.c', 'd@e.f', 'g@h.i']" in captured.out
     assert os.path.isfile('./all_users.csv') == True
     os.remove('./all_users.csv')
+
+
+def get_date_to_test_after() -> str:
+
+    from datetime import datetime
+    now = datetime.now()
+
+    day = int(now.strftime('%d'))
+    month = now.strftime('%m')
+    year = now.strftime('%Y')
+    day_to_test = day - 1
+
+    # Date is in the format yyyy-mm-dd
+
+    date_string = year + '-' + month + '-' + str(day_to_test)
+    return date_string
+
+
+def get_date_to_test_before() -> str:
+
+    from datetime import datetime
+    now = datetime.now()
+
+    day = int(now.strftime('%d'))
+    month = now.strftime('%m')
+    year = now.strftime('%Y')
+    day_to_test = day + 1
+
+    # Date is in the format yyyy-mm-dd
+
+    date_string = year + '-' + month + '-' + str(day_to_test)
+    return date_string
+
+
+def test_list_users_after_date(setup_users, capsys):
+    """Tests list users before current date so the fixture works"""
+    date_string = get_date_to_test_after()
+
+    cog = Cognito(
+        user_pool_id=os.getenv('user-pool-id'),
+        region=os.getenv('region'),
+        list_users=True,
+        before=date_string,
+    )
+    cog.handle_cognito()
+    captured = capsys.readouterr()
+    print(captured)
+    assert "['a@b.c', 'd@e.f', 'g@h.i']" in captured.out
+
+
+def test_list_users_before_date(setup_users, capsys):
+    """Tests list users before current date so the fixture works"""
+    date_string = get_date_to_test_before()
+
+    cog = Cognito(
+        user_pool_id=os.getenv('user-pool-id'),
+        region=os.getenv('region'),
+        list_users=True,
+        before=date_string,
+    )
+    cog.handle_cognito()
+    captured = capsys.readouterr()
+    print(captured)
+    assert "['a@b.c', 'd@e.f', 'g@h.i']" in captured.out
+
+
+def test_cognito_valid_parameter(configure):
+    configure_aws_helper(configure)
+
+    with pytest.raises(SystemExit):
+        cog = Cognito(
+            user_pool_id=None,
+            region=os.getenv('region'),
+            list_user_pools=False,
+        )
+        cog.handle_cognito()
+
+
+def test_list_user_pools(configure, capsys):
+    configure_aws_helper(configure)
+
+    cog = Cognito(
+        user_pool_id=None,
+        region=os.getenv('region'),
+        list_user_pools=True,
+    )
+
+    cog.get_list_user_pools()
+    captured = capsys.readouterr()
+    print(captured)
+    assert 'test' in captured.out

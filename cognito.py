@@ -119,7 +119,10 @@ class Cognito:
         else:
             header = concise_list[0].keys()
             rows = [x.values() for x in concise_list]
-            print(tabulate.tabulate(rows, header, tablefmt='grid'))
+            if os.getenv('mode') == 'test':
+                print(rows)
+            else:
+                print(tabulate.tabulate(rows, header, tablefmt='grid'))
 
     def save_data(self):
         spinner = Halo(text='Saving Users', spinner='dots')
