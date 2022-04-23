@@ -2,7 +2,7 @@
 
 # AWS Helper
 
-Use `aws-helper configure` to configure the tool
+Use `aws-wizard configure` to configure the tool
 
 # Currently Supporting
 
@@ -17,14 +17,14 @@ A Querying support for AWS Cognito
 
 # Installation
 
-`pip install aws-helper`
+`pip install aws-wizard`
 
 # Usage
 
 ```console
-foo@bar:~$ aws-helper cognito --help
+foo@bar:~$ aws-wizard cognito --help
 
-usage: aws-helper cognito [-h] [--user-pool-id USER_POOL_ID] [--region REGION] [--list-user-pools] [--list-users | --count] [--before BEFORE] [--after AFTER] [--save]
+usage: aws-wizard cognito [-h] [--user-pool-id USER_POOL_ID] [--region REGION] [--list-user-pools] [--list-users | --count] [--before BEFORE] [--after AFTER] [--save]
 
 optional arguments:
   -h, --help            show this help message and exit

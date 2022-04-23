@@ -2,8 +2,8 @@
 Test no argument passed
 1. -- Test total users
 2. -- Test list all users
-3. Test before date
-4. Test after date
+3. -- Test before date
+4. -- Test after date
 5. Test before and after
 6. Test show and save for all users and 3,4,5
 9. -- catch no user pool id provided for cognito class
@@ -17,15 +17,16 @@ import boto3
 import pytest
 from dotenv import load_dotenv
 
-from ..utils import configure_aws_helper
-from ..utils import is_configured
 from .data.user_data import UserData
 from cognito import Cognito
 from main import main
-# from .fixtures.fixture_user import setup_users
+from utils import configure_aws_helper
+from utils import is_configured
 
 sys.path.insert(0, '../')
 sys.path.insert(0, '.')
+
+# from .fixtures.fixture_user import setup_users
 
 
 load_dotenv()
