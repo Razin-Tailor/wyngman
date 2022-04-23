@@ -1,4 +1,4 @@
-""" Tests for aws-wizard cli"""
+""" Tests for aws-wingman cli"""
 import sys
 from importlib.metadata import version
 from os import linesep
@@ -14,28 +14,28 @@ sys.path.insert(0, '../')
 def test_run_as_module():
     """ Can this package run as a python module ?"""
 
-    result = shell('python -m aws-wizard --help')
+    result = shell('python -m aws-wingman --help')
     assert result.exit_code == 1
 
 
 def test_entrypoint():
     """ Is entrypoint script installed? (setup.py) """
-    result = shell('aws-wizard --help')
+    result = shell('aws-wingman --help')
     assert result.exit_code == 0
 
 
 def test_version():
     """ Does --version display information as expected? """
-    expected_version = version('aws-wizard')
-    result = shell('aws-wizard --version')
-    assert result.stdout == f'aws-wizard {expected_version}{linesep}'
+    expected_version = version('aws-wingman')
+    result = shell('aws-wingman --version')
+    assert result.stdout == f'aws-wingman {expected_version}{linesep}'
     assert result.exit_code == 0
 
 
 """
 def test_configure():
     Does --configure work as expected
-    result = shell('aws-wizard configure')
+    result = shell('aws-wingman configure')
     print(result)
     assert result.exit_code == 111
 """

@@ -7,7 +7,7 @@ import constants as C
 class Parser:
     COGNITO_HELP = """\
         AWS Cognito Utilities
-        use `aws-wizard cognito -h` for more information
+        use `aws-wingman cognito -h` for more information
         """
     CONFIGURE_HELP = """\
         Provide your AWS Credentials
@@ -33,7 +33,7 @@ class Parser:
             """,
         )
         parser = argparse.ArgumentParser(
-            prog='aws-wizard',
+            prog='aws-wingman',
             description=description,
             formatter_class=argparse.RawTextHelpFormatter,
         )
