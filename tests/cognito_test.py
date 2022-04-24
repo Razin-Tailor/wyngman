@@ -11,20 +11,21 @@ Test no argument passed
 """
 import os
 import sys
-from turtle import clear
+
+sys.path.insert(0, '../')
+sys.path.insert(0, '.')
+
+
 
 import boto3
 import pytest
 from dotenv import load_dotenv
 
-from .data.user_data import UserData
 from cognito import Cognito
 from main import main
 from utils import configure_aws_helper
 from utils import is_configured
 
-sys.path.insert(0, '../')
-sys.path.insert(0, '.')
 
 # from .fixtures.fixture_user import setup_users
 

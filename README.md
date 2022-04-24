@@ -1,8 +1,12 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) ![coverage](https://img.shields.io/badge/coverage-81%25-green)
 
-# AWS Helper
+# Wyngman: An AWS Utility Helper Tool
 
-Use `wyngman configure` to configure the tool
+### What is it?
+
+wyngman is a Python package that provides needed functionalities of AWS Toolkit that are otherwise difficult to achieve with the standard cli or not possible currently. It aims to be the fundamental high-level utility helper tool for achieving more from AWS Services in Python.
+
+
 
 # Currently Supporting
 
@@ -17,7 +21,15 @@ A Querying support for AWS Cognito
 
 # Installation
 
-`pip install wyngman`
+```bash
+pip install wyngman
+```
+
+# Configuration
+
+```bash
+wyngman configure
+```
 
 # Usage
 
