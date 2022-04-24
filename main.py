@@ -45,7 +45,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             raise SystemExit(
                 (
                     'You need to configure the tool.'
-                    'Please run `aws-wingman configure`',
+                    'Please run `wyngman configure`',
                 ),
             )
         else:

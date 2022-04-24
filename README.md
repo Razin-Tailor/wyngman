@@ -2,7 +2,7 @@
 
 # AWS Helper
 
-Use `aws-wingman configure` to configure the tool
+Use `wyngman configure` to configure the tool
 
 # Currently Supporting
 
@@ -17,14 +17,14 @@ A Querying support for AWS Cognito
 
 # Installation
 
-`pip install aws-wingman`
+`pip install wyngman`
 
 # Usage
 
 ```console
-foo@bar:~$ aws-wingman cognito --help
+foo@bar:~$ wyngman cognito --help
 
-usage: aws-wingman cognito [-h] [--user-pool-id USER_POOL_ID] [--region REGION] [--list-user-pools] [--list-users | --count] [--before BEFORE] [--after AFTER] [--save]
+usage: wyngman cognito [-h] [--user-pool-id USER_POOL_ID] [--region REGION] [--list-user-pools] [--list-users | --count] [--before BEFORE] [--after AFTER] [--save]
 
 optional arguments:
   -h, --help            show this help message and exit
