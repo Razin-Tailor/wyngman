@@ -46,7 +46,6 @@ class Cognito:
         count_users: bool = False,
         test: bool = False,
     ):
-        print(list_user_pools)
         self.region = region
         self.user_pool_id = user_pool_id
         self.list_user_pools = list_user_pools
@@ -59,7 +58,7 @@ class Cognito:
         self.test = test
         # Create boto3 CognitoIdentityProvider client
         spinner = Halo(spinner='dots')
-        if not os.path.isfile(os.path.join(os.path.expanduser('~'), '.aws_helper/credentials.json')):
+        if not os.path.isfile(os.path.join(os.path.expanduser('~'), '.wyngman/credentials.json')):
             spinner.fail(
                 'Credentials not Set...'
                 ' Please configure the tool before continuing',
@@ -76,14 +75,13 @@ class Cognito:
                 open(
                     os.path.join(
                         os.path.expanduser('~'),
-                        '.aws_helper/credentials.json',
+                        '.wyngman/credentials.json',
                     ),
                 ),
             )
             self.region = (
                 self.credentials['region'] if region == '' else region
             )
-            print(f'{self.region} {self.credentials}')
             self.client = boto3.client(
                 'cognito-idp',
                 self.region,
@@ -112,7 +110,6 @@ class Cognito:
                 if key in TO_SHOW_USER_POOL_KEYS:
                     temp_dict[key] = value
             concise_list.append(temp_dict)
-        print(f'{concise_list=}')
         if len(concise_list) == 0:
             spinner = Halo(text='No User Pool Available', spinner='dots')
             spinner.fail('No User Pool Available')

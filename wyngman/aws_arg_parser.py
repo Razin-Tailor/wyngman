@@ -1,7 +1,7 @@
 import argparse
 import textwrap
 
-import constants as C
+import wyngman.constants as C
 
 
 class Parser:

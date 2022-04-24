@@ -2,10 +2,10 @@ from unittest import mock
 import pytest
 import sys
 
-sys.path.insert(0, './')
-sys.path.insert(0, '../')
+# sys.path.insert(0, './')
+# sys.path.insert(0, '../')
 
-from main import main
+from wyngman.main import main
 
 def test_help_flag():
     with pytest.raises(SystemExit):

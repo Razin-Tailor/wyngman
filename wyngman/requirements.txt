@@ -1,7 +1,7 @@
 appnope==0.1.2
 attrs==21.4.0
 autopep8==1.6.0
--e git+ssh://git@github.com/Razin-Tailor/aws_helper.git@657bbbdeb9aaf839e0c7372bb789db8f671acf25#egg=aws_helper
+-e git+ssh://git@github.com/Razin-Tailor/wyngman.git@657bbbdeb9aaf839e0c7372bb789db8f671acf25#egg=wyngman
 backcall==0.2.0
 backports.entry-points-selectable==1.1.0
 black==21.9b0

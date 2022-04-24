@@ -8,12 +8,12 @@ from PyInquirer import prompt
 
 
 def is_configured() -> bool:
-    if not os.path.isdir(os.path.join(os.path.expanduser('~'), '.aws_helper')):
+    if not os.path.isdir(os.path.join(os.path.expanduser('~'), '.wyngman')):
         return False
     elif not os.path.isfile(
         os.path.join(
             os.path.expanduser('~'),
-            '.aws_helper', 'credentials.json',
+            '.wyngman', 'credentials.json',
         ),
     ):
         return False
@@ -21,7 +21,7 @@ def is_configured() -> bool:
         return True
 
 
-def configure_aws_helper(argv: Optional[Dict[str, str]] = None) -> None:
+def configure_wyngman(argv: Optional[Dict[str, str]] = None) -> None:
 
     questions = [
         {
@@ -47,7 +47,7 @@ def configure_aws_helper(argv: Optional[Dict[str, str]] = None) -> None:
     ]
 
     home = expanduser('~')
-    helper_path = os.path.join(home, '.aws_helper')
+    helper_path = os.path.join(home, '.wyngman')
     fpath = os.path.join(helper_path, 'credentials.json')
 
     # write_perm = os.access(fpath, os.W_OK)  # Check for write access

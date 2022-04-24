@@ -12,8 +12,8 @@ Test no argument passed
 import os
 import sys
 
-sys.path.insert(0, '../')
-sys.path.insert(0, '.')
+# sys.path.insert(0, '../')
+# sys.path.insert(0, '.')
 
 
 
@@ -21,10 +21,10 @@ import boto3
 import pytest
 from dotenv import load_dotenv
 
-from cognito import Cognito
-from main import main
-from utils import configure_aws_helper
-from utils import is_configured
+from wyngman.cognito import Cognito
+from wyngman.main import main
+from wyngman.utils import configure_wyngman
+from wyngman.utils import is_configured
 
 
 # from .fixtures.fixture_user import setup_users
@@ -32,11 +32,11 @@ from utils import is_configured
 
 load_dotenv()
 
-CONFIG_PATH = os.path.join(os.path.expanduser('~'), '.aws_helper')
+CONFIG_PATH = os.path.join(os.path.expanduser('~'), '.wyngman')
 CREDENTIALS_PATH = os.path.join(
     os.path.expanduser(
         '~',
-    ), '.aws_helper', 'credentials.json',
+    ), '.wyngman', 'credentials.json',
 )
 
 
@@ -69,7 +69,7 @@ def setup_users(configure):
     print(f"{os.getenv('region')}, {os.getenv('test-access-key')}, {os.getenv('test-secret')}")
     print('Configuring tool ...')
 
-    configure_aws_helper(configure)
+    configure_wyngman(configure)
 
     cog = boto3.client(
         'cognito-idp', os.getenv('region'), aws_access_key_id=os.getenv(
@@ -139,7 +139,7 @@ def test_no_user_pool_id_provided():
 def test_user_pool_doesnot_exist(configure):
     """Raise Value Error oif user pool doesnot exist"""
     with pytest.raises(ValueError):
-        configure_aws_helper(configure)
+        configure_wyngman(configure)
         cog = Cognito(
             user_pool_id='somerandomstring',
             region=os.getenv('region'),
@@ -261,7 +261,7 @@ def test_list_users_before_date(setup_users, capsys):
 def test_cognito_valid_parameter(configure):
     """Test SystemExit on violation of valid params"""
 
-    configure_aws_helper(configure)
+    configure_wyngman(configure)
 
     with pytest.raises(SystemExit):
         cog = Cognito(
@@ -275,7 +275,7 @@ def test_cognito_valid_parameter(configure):
 def test_list_user_pools(configure, capsys):
     """Test user pools"""
 
-    configure_aws_helper(configure)
+    configure_wyngman(configure)
 
     cog = Cognito(
         user_pool_id=None,

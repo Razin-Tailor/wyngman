@@ -4,15 +4,15 @@ import sys
 
 import pytest
 
-from utils import configure_aws_helper
-from utils import is_configured
+from wyngman.utils import configure_wyngman
+from wyngman.utils import is_configured
 
 
-CONFIG_PATH = os.path.join(os.path.expanduser('~'), '.aws_helper')
+CONFIG_PATH = os.path.join(os.path.expanduser('~'), '.wyngman')
 CREDENTIALS_PATH = os.path.join(
     os.path.expanduser(
         '~',
-    ), '.aws_helper', 'credentials.json',
+    ), '.wyngman', 'credentials.json',
 )
 
 
@@ -73,11 +73,11 @@ def test_is_configured_no_file():
     assert is_configured() == False
 
 
-def test_configure_aws_helper_no_permission(configure_data):
+def test_configure_wyngman_no_permission(configure_data):
     with pytest.raises(PermissionError) as exc_info:
-        configure_aws_helper(configure_data)
+        configure_wyngman(configure_data)
 
 
-def test_configure_aws_helper_with_permission(with_permission_configure_data):
-    configure_aws_helper(with_permission_configure_data)
+def test_configure_wyngman_with_permission(with_permission_configure_data):
+    configure_wyngman(with_permission_configure_data)
     assert os.path.isfile(CREDENTIALS_PATH)
