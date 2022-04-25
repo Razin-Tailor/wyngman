@@ -14,7 +14,6 @@ wyngman is a Python package that provides needed functionalities of AWS Toolkit 
 
 A Querying support for AWS Cognito
 
-- Support to Query **ALL** users instead of the standard limit of _60_
 - Support to Query Users **Before** a certain UserCreationDate
 - Support to Query Users **After** a certain UserCreationDate
 - Support to **Save as CSV**
