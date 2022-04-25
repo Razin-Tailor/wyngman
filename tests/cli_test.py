@@ -1,9 +1,6 @@
 """ Tests for wyngman cli"""
 import sys
 
-# sys.path.insert(0, './')
-# sys.path.insert(0, '../')
-
 from importlib.metadata import version
 from os import linesep
 
@@ -11,7 +8,6 @@ import pytest
 from cli_test_helpers import shell
 
 from wyngman.main import main
-
 
 def test_run_as_module():
     """ Can this package run as a python module ?"""

@@ -12,11 +12,6 @@ Test no argument passed
 import os
 import sys
 
-# sys.path.insert(0, '../')
-# sys.path.insert(0, '.')
-
-
-
 import boto3
 import pytest
 from dotenv import load_dotenv
@@ -25,9 +20,6 @@ from wyngman.cognito import Cognito
 from wyngman.main import main
 from wyngman.utils import configure_wyngman
 from wyngman.utils import is_configured
-
-
-# from .fixtures.fixture_user import setup_users
 
 
 load_dotenv()
