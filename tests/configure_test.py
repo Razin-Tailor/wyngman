@@ -25,9 +25,9 @@ def configure_data():
     # REVIKE Permission to Write
     os.chmod(CONFIG_PATH, 0o400)
     data = {
-        'access_key': 'AKIAJ25KSNP7LLSFWS5A',
-        'secret_key': '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',
-        'region': 'us-east-1',
+        'access_key': os.getenv('test-access-key'),
+        'secret_key': os.getenv('test-secret'),
+        'region': os.getenv('region'),
         'output_fmt': 'json',
     }
     yield data
@@ -48,9 +48,9 @@ def with_permission_configure_data():
 
     os.chmod(CONFIG_PATH, 0o755)
     data = {
-        'access_key': 'AKIAJ25KSNP7LLSFWS5A',
-        'secret_key': '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',
-        'region': 'us-east-1',
+        'access_key': os.getenv('test-access-key'),
+        'secret_key': os.getenv('test-secret'),
+        'region': os.getenv('region'),
         'output_fmt': 'json',
     }
     yield data

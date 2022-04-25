@@ -45,9 +45,9 @@ def configure():
     os.chmod(CONFIG_PATH, 0o755)
 
     data = {
-        'access_key': 'AKIARVMWUW4262CCI4MV',
-        'secret_key': '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',
-        'region': 'ap-south-1',
+        'access_key': os.getenv('test-access-key'),
+        'secret_key': os.getenv('test-secret'),
+        'region': os.getenv('region'),
         'output_fmt': 'json',
     }
     yield data
