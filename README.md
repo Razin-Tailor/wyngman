@@ -1,4 +1,4 @@
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) ![coverage](https://img.shields.io/badge/coverage-81%25-green)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) ![coverage](https://img.shields.io/badge/coverage-81%25-green) [![Downloads](https://pepy.tech/badge/wyngman)](https://pepy.tech/project/wyngman) [![Downloads](https://pepy.tech/badge/wyngman/month)](https://pepy.tech/project/wyngman) [![Downloads](https://pepy.tech/badge/wyngman/week)](https://pepy.tech/project/wyngman)
 
 # Wyngman: An AWS Utility Helper Tool
 
