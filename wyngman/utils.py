@@ -4,8 +4,7 @@ from os.path import expanduser
 from typing import Dict
 from typing import Optional
 
-from PyInquirer import prompt
-
+import inquirer
 
 def is_configured() -> bool:
     if not os.path.isdir(os.path.join(os.path.expanduser('~'), '.wyngman')):
@@ -24,26 +23,10 @@ def is_configured() -> bool:
 def configure_wyngman(argv: Optional[Dict[str, str]] = None) -> None:
 
     questions = [
-        {
-            'type': 'input',
-            'name': 'access_key',
-            'message': 'AWS Access Key ID',
-        },
-        {
-            'type': 'input',
-            'name': 'secret_key',
-            'message': 'AWS Secret Access Key',
-        },
-        {
-            'type': 'input',
-            'name': 'region',
-            'message': 'Default region name',
-        },
-        {
-            'type': 'input',
-            'name': 'output_fmt',
-            'message': 'Default output format',
-        },
+        inquirer.Text('access_key', message="AWS Access Key ID"),
+        inquirer.Text('secret_key', message="AWS Secret Access Key"),
+        inquirer.Text('region', message="Default region name"),
+        inquirer.Text('output_fmt', message="Default output format"),
     ]
 
     home = expanduser('~')
@@ -53,9 +36,7 @@ def configure_wyngman(argv: Optional[Dict[str, str]] = None) -> None:
     # write_perm = os.access(fpath, os.W_OK)  # Check for write access
     write_perm = os.access(helper_path, os.W_OK)  # Check for write access
     if (write_perm):
-        answers = prompt(
-            questions, keyboard_interrupt_msg='Aborted!',
-        ) if argv is None else argv
+        answers = inquirer.prompt(questions)
         for key, value in answers.items():
             if len(value) == 0:
                 answers[key] = None
