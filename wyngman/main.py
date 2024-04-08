@@ -70,6 +70,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             if list_user_pools:
                 cognito.get_list_user_pools()
             cognito.handle_cognito()
+    elif args.command == 'lambda':
+        print(F.renderText('WYNGMAN'))
+        if not is_configured():
+            raise SystemExit(
+                (
+                    'You need to configure the tool.'
+                    'Please run `wyngman configure`',
+                ),
+            )
+        else:
+            # find if other command is `create`
+            # if so, then create a lambda function
+            print(args)
+            ...
     return 0
 
 

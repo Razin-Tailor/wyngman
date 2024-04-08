@@ -12,6 +12,14 @@ class Parser:
     CONFIGURE_HELP = """\
         Provide your AWS Credentials
         """
+    LAMBDA_HELP = """\
+        AWS Lambda Utilities
+        use `wyngman lambda -h` for more information
+        """ 
+    LAMBDA_LAYER_HELP = """\
+        AWS Lambda Utilities
+        use `wyngman lambda layer -h` for more information
+        """ 
 
     def __init__(self):
         pass
@@ -122,4 +130,28 @@ class Parser:
             help='Save as a CSV file',
         )
 
+        lambda_parser = subparsers.add_parser(
+            'lambda',
+            help=self.LAMBDA_HELP,
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
+        subparsers_lambda = lambda_parser.add_subparsers(dest='command')
+        layer_lambda_parser = subparsers_lambda.add_parser(
+            'layer',
+            help=self.LAMBDA_LAYER_HELP,
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
+        layer_lambda_parser.add_argument(
+            '--list-layers',
+            '-l',
+            dest='list_layers',
+            action='store_true',
+            help='List all layers in a given region',
+        )
+        layer_lambda_parser.add_argument(
+            '--deps',
+            '-d',
+            help='Provide Dependencies for the Layer',
+            nargs='+',   
+        )
         return parser
